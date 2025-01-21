@@ -123,4 +123,8 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    // Versionamiento de la API //
+
+    'apiversion' => env('API_VERSION'),
+
 ];
