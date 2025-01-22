@@ -12,3 +12,4 @@ Route::get('/user', function (Request $request) {
 Route::get('/test', [ApiVersionController::class, 'index']);
 
 Route::post('/customer/user/create', [UsersController::class, 'createUser']);
+Route::post('/login', [UsersController::class, 'loginUser']);

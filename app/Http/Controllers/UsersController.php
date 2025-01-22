@@ -8,6 +8,7 @@ use App\Services\UsersService;
 use App\Traits\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -39,5 +40,24 @@ class UsersController extends Controller
         $this->userService->newUser($request->all());
 
         return $this->successResponse(['user' => $request->user], 201);
+    }
+
+    public function loginUser (Request $request) {
+        
+        // Validación de los datos de entrada
+
+        $validator = Validator::make($request->all(), [
+            'user' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        // Respuesta Validación de usuario
+        
+        return $this->userService->validateUserLogin($request->all());
+        
     }
 }
