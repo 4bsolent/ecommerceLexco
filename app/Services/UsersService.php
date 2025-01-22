@@ -45,7 +45,7 @@ class UsersService {
         }
 
         // Eliminación de tokens de autenticación
-        
+
         $user->tokens()->delete();
 
         // Creación token de autenticación
@@ -54,6 +54,6 @@ class UsersService {
 
         // Respuesta de token de autenticación
 
-        return $this->successResponse(['bearerToeken' => $token], 200);
+        return $this->successResponse(['bearerToken ' => $token], 200);
     }
 }
