@@ -44,6 +44,10 @@ class UsersService {
             return $this->errorResponse(['data' => 'Usuario inactivo'], 401);
         }
 
+        // Eliminación de tokens de autenticación
+        
+        $user->tokens()->delete();
+
         // Creación token de autenticación
 
         $token = $user->createToken('auth_token')->plainTextToken;
