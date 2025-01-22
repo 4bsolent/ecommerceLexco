@@ -3,13 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Services\UsersService;
-use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Services\UsersService;
+use App\Traits\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
+
+    use JsonResponse;
+
     private $userService;
 
     public function __construct(UsersService $userService) {
@@ -29,17 +33,11 @@ class UsersController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'message' => 'Se encontraron errores en los datos enviados',
-                'errors' => $validator->errors()
-            ], 400);
+            return $this->errorResponse($validator->errors(), 422);
         }
 
         $this->userService->newUser($request->all());
 
-        return response()->json([
-            'message' => 'Usuario creado exitosamente',
-            'user' => $request->user
-        ], 201);
+        return $this->successResponse(['user' => $request->user], 201);
     }
 }
