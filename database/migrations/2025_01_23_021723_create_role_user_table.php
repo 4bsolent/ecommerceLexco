@@ -20,8 +20,8 @@ return new class extends Migration
 
             // Llaves foráneas
 
-            $table->foreign('id_role')->references('id')->on('roles');
-            $table->foreign('id_user')->references('id')->on('users');
+            $table->foreign('id_role')->references('id')->on('roles')->onDelete('cascade');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
