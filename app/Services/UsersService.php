@@ -22,7 +22,6 @@ class UsersService {
         return $this->usersRepository->newUser($userData);
     }
 
-    
     /**
         * Validación de usuario
         *
@@ -49,7 +48,7 @@ class UsersService {
         $user->tokens()->delete();
 
         // Creación token de autenticación
-
+        
         $token = $user->createToken('auth_token')->plainTextToken;
 
         // Respuesta de token de autenticación

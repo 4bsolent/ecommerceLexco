@@ -11,6 +11,5 @@ class RoleUser extends Model
     protected $fillable = [
         'id_role',
         'id_user',
-        'status'
     ];
 }

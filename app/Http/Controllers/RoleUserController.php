@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\RoleUserService;
 use App\Traits\JsonResponse;
+use Validator;
 
 class RoleUserController extends Controller
 {
@@ -16,9 +17,21 @@ class RoleUserController extends Controller
         $this->roleUserService = $roleUserService;
     }
 
-    public function newRoleUser(Request $request) {
+    public function createRoleUser(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'id_role' => 'required|array|exists:roles,id',
+            'id_user' => 'required|numeric|exists:users,id',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        $idUser = (int) $request->id_user;
+        $idRoles = (array) $request->id_role;
+
+        return $this->roleUserService->assignRoleToUser($idUser, $idRoles);
         
-        return $this->roleUserService->newRoleUser($request->all());
-        
+
     }
 }

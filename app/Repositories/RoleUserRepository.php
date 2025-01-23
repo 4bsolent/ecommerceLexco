@@ -6,10 +6,10 @@ use App\Models\RoleUser;
 use Illuminate\Database\Eloquent\Collection;
 
 class RoleUserRepository {
-    public function newRoleUser(array $data) {
+    public function newRoleUser(int $idUser, int $idRole) {
         return RoleUser::create([
-            'id_role' => $data['id_role'],
-            'id_user' => $data['id_user']
+            'id_role' => $idRole,
+            'id_user' => $idUser
         ]);
     }
 

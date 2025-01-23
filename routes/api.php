@@ -15,4 +15,4 @@ Route::get('/test', [ApiVersionController::class, 'index']);
 Route::post('/customer/user/create', [UsersController::class, 'createUser']);
 Route::post('/login', [UsersController::class, 'loginUser']);
 
-Route::post('/create/role', [RoleUserController::class, 'newRoleUser']);
+Route::post('/create/role', [RoleUserController::class, 'createRoleUser']);

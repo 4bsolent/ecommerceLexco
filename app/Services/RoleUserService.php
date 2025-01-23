@@ -16,8 +16,23 @@ class RoleUserService {
         $this->roleUserRepository = $roleUserRepository;
     }
 
-    public function newRoleUser(array $data) {
-        return $this->roleUserRepository->newRoleUser($data);
+    public function assignRoleToUser (int $idUser, array $idRoles) {
+
+        try {
+            foreach ($idRoles as $idRole) {
+                $this->roleUserRepository->newRoleUser((int)$idUser, (int)$idRole);
+            }
+        } catch (\Exception $e) {
+            return $this->errorResponse([
+                'identifier' => 'El usuario ya tiene asignado el role',
+                'errorLog' => $e->getMessage()
+            ], 422);
+        }
+
+        return $this->successResponse([
+            'rolesAsignation' => $idRoles,
+            'idUser' => $idUser
+        ], 201);
     }
 
     public function getAllRoleUser() {
