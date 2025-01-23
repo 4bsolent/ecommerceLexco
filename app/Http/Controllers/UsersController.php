@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\UsersService;
+use App\Services\RoleUserService;
 use App\Traits\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -16,9 +16,11 @@ class UsersController extends Controller
     use JsonResponse;
 
     private $userService;
+    private $roleUser;
 
-    public function __construct(UsersService $userService) {
+    public function __construct(UsersService $userService, RoleUserService $roleUser) {
         $this->userService = $userService;
+        $this->roleUser = $roleUser;
     }
 
     public function createUser(Request $request) {
@@ -37,7 +39,11 @@ class UsersController extends Controller
             return $this->errorResponse($validator->errors(), 422);
         }
 
-        $this->userService->newUser($request->all());
+        $user = $this->userService->newUser($request->all());
+        $idUser = $user->id;
+        $idRole = [3];
+
+        $this->roleUser->assignRoleToUser($idUser, $idRole);
 
         return $this->successResponse(['user' => $request->user], 201);
     }
