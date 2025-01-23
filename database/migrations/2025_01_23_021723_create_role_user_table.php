@@ -13,10 +13,15 @@ return new class extends Migration
     {
         Schema::create('role_user', function (Blueprint $table) {
             
+            $table->id();
             $table->unsignedBigInteger('id_role');
             $table->unsignedBigInteger('id_user');
             $table->string('status')->default('active');
             $table->timestamps();
+
+            // Llave primaria
+
+            $table->primary(['id_role', 'id_user']);
 
             // Llaves foráneas
 
