@@ -6,6 +6,7 @@ use App\Http\Controllers\ApiVersionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\PhoneController;
+use App\Http\Controllers\AddressController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -18,3 +19,4 @@ Route::post('/login', [UsersController::class, 'loginUser']);
 
 Route::post('/create/role', [RoleUserController::class, 'createRoleUser']);
 Route::post('/create/phone', [PhoneController::class, 'createPhone']);
+Route::post('/create/address', [AddressController::class, 'createAddress']);
