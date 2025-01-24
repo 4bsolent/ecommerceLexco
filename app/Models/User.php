@@ -23,8 +23,7 @@ class User extends Authenticatable
         'name',
         'lastname',
         'email',
-        'address',
-        'phone',
+        'image_route'
     ];
 
     /**
