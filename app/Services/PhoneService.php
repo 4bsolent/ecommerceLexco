@@ -37,7 +37,7 @@ class PhoneService {
 
         if (!empty($numbersAlreadyRegistered)) {
             return $this->errorResponse([
-                'message' => 'Los siguientes números ya se encuentran registrados:',
+                'message' => 'Los siguientes números ya se encuentran registrados al usuario con ID: ' . $idUser,
                 'phoneNumbers' => $numbersAlreadyRegistered
             ],422);
         } else {
