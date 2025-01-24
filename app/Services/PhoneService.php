@@ -43,6 +43,5 @@ class PhoneService {
         } else {
             return $this->successResponse($phonesData, 201);
         }
-        
     }
 }

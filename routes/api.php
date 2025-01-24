@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiVersionController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\RoleUserController;
+use App\Http\Controllers\PhoneController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -16,3 +17,4 @@ Route::post('/customer/user/create', [UsersController::class, 'createUser']);
 Route::post('/login', [UsersController::class, 'loginUser']);
 
 Route::post('/create/role', [RoleUserController::class, 'createRoleUser']);
+Route::post('/create/phone', [PhoneController::class, 'createPhone']);

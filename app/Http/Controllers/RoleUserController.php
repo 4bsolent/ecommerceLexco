@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\RoleUserService;
 use App\Traits\JsonResponse;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 
 class RoleUserController extends Controller
 {
