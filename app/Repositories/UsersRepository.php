@@ -13,8 +13,6 @@ class UsersRepository {
             'name' => $data['name'],
             'lastname' => $data['lastname'],
             'email' => $data['email'],
-            'address' => $data['address'],
-            'phone' => $data['phone'],
         ]);
     }
 }
