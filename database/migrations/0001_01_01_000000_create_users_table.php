@@ -20,8 +20,6 @@ return new class extends Migration
             $table->string('lastname');
             $table->string('email')->unique();
             $table->string('image_rute')->nullable();
-            $table->string('address');
-            $table->string('phone');
             $table->timestamps();
         });
 
