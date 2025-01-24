@@ -30,9 +30,7 @@ class UsersController extends Controller
             'password' => 'required|string|min:8',
             'name' => 'required|string|max:100',
             'lastname' => 'required|string|max:100',
-            'email' => 'required|email|unique:users,email|max:150',
-            'address' => 'required|string|max:255',
-            'phone' => 'required|string|max:30',
+            'email' => 'required|email|unique:users,email|max:150'
         ]);
 
         if ($validator->fails()) {
