@@ -14,9 +14,15 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/test', [ApiVersionController::class, 'index']);
 
-Route::post('/customer/user/create', [UsersController::class, 'createUser']);
+Route::post('/customer/user/create', [UsersController::class, 'customerCreateUser']);
 Route::post('/login', [UsersController::class, 'loginUser']);
 
 Route::post('/create/role', [RoleUserController::class, 'createRoleUser']);
 Route::post('/create/phone', [PhoneController::class, 'createPhone']);
 Route::post('/create/address', [AddressController::class, 'createAddress']);
+
+// Rutas de Administrador
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::post('/v1.0/admin/users/add', [UsersController::class, 'adminCreateUser']);
+});
