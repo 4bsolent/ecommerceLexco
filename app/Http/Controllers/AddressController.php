@@ -19,6 +19,20 @@ class AddressController extends Controller {
     }
 
     public function createAddress (Request $request) {
-        return $request->all();
+
+        $validator = Validator::make($request->all(), [
+            'id_user' => 'required|numeric|exists:users,id',
+            'city' => 'required|string',
+            'neighborhood' => 'required|string',
+            'nomenclature' => 'required|string|max:255'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        $this->addressService->addAddress($request->all());
+
+        return $this->successResponse($request->all(), 201);
     }
 }
