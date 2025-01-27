@@ -18,8 +18,10 @@ class UsersService {
     }
 
     public function newUser(array $userData) {
-        $userData['password'] = Hash::make($userData['password']);
-        return $this->usersRepository->newUser($userData);
+        foreach ($userData as $user) {
+            $user['password'] = Hash::make($user['password']);
+            return $this->usersRepository->newUser($user);
+        }
     }
 
     /**
