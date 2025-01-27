@@ -13,7 +13,7 @@ class AddressService {
         $this->addressRepository = $addressRepository;
     }
 
-    public function addAddress ($data) {
-        $this->addressRepository->newAddress($data);
+    public function addAddress ($idUser, $data) {
+        $this->addressRepository->newAddress( $idUser, $data);
     }
 }
