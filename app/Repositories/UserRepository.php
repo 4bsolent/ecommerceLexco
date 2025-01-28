@@ -5,7 +5,7 @@ namespace App\Repositories;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 
-class UsersRepository {
+class UserRepository {
     public function newUser(array $data) {
         return User::create([
             'user' => $data['user'],
@@ -14,6 +14,14 @@ class UsersRepository {
             'lastname' => $data['lastname'],
             'email' => $data['email'],
         ]);
+    }
+
+    public function allUsers() {
+        return User::all(['id', 'user', 'status', 'name', 'lastname', 'email', 'image_rute'])->toArray();
+    }
+
+    public function userById(int $userId) {
+        return User::where('id', $userId)->select('id', 'user', 'status', 'name', 'lastname', 'email', 'image_rute')->first();
     }
 }
 

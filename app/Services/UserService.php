@@ -2,28 +2,36 @@
 
 namespace App\Services;
 
-use App\Repositories\UsersRepository;
+use App\Repositories\UserRepository;
 use App\Models\User;
 use App\Traits\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
-class UsersService {
+class UserService {
 
     use JsonResponse;
 
-    private $usersRepository;
+    private $userRepository;
 
-    public function __construct(UsersRepository $usersRepository) {
-        $this->usersRepository = $usersRepository;
+    public function __construct(UserRepository $userRepository) {
+        $this->userRepository = $userRepository;
     }
 
     public function newUser(array $userData) {
         foreach ($userData as $user) {
             $user['password'] = Hash::make($user['password']);
-            return $this->usersRepository->newUser($user);
+            return $this->userRepository->newUser($user);
         }
     }
 
+    public function allUsers () {
+        return $this->userRepository->allUsers();
+    }
+
+    public function userById (int $userId) {
+        return $this->userRepository->userById($userId);
+    }
+ 
     /**
         * Validación de usuario
         *

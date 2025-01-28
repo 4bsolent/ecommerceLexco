@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\RolesRepository;
-use App\Services\UsersService;
+use App\Services\UserService;
 use App\Services\RoleUserService;
 use App\Services\AddressService;
 use App\Services\PhoneService;
@@ -12,7 +12,7 @@ use App\Traits\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
 
     use JsonResponse;
@@ -23,7 +23,7 @@ class UsersController extends Controller
     private $phoneService;
     private $rolesRepository;
 
-    public function __construct(UsersService $userService, RoleUserService $roleUserService, AddressService $addressService, PhoneService $phoneService, RolesRepository $rolesRepository) {
+    public function __construct(UserService $userService, RoleUserService $roleUserService, AddressService $addressService, PhoneService $phoneService, RolesRepository $rolesRepository) {
         $this->userService = $userService;
         $this->roleUserService = $roleUserService;
         $this->addressService = $addressService;
@@ -116,5 +116,24 @@ class UsersController extends Controller
         
         return $this->userService->validateUserLogin($request->all());
         
+    }
+
+    public function showAllUsers () {
+        $userList = $this->userService->allUsers();
+        return $this->successResponse($userList, 200);
+    }
+
+    public function showUserById (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'userId' => 'required|numeric|max:4|exists:users,id'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        $userId = $request->userId;
+
+        return $this->userService->userById($userId);
     }
 }
