@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\RoleUser;
-use Illuminate\Database\Eloquent\Collection;
 
 class RoleUserRepository {
     public function newRoleUser(int $idUser, int $idRole) {
