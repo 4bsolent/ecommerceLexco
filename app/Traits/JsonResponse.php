@@ -12,7 +12,7 @@ trait JsonResponse {
         * @param string  $message El mensaje es opcional en caso de querer personalizar la respuesta
         * @param mixed  $data Los datos que se quieren devolver
         * @param int $code El codigo de estado HTTP
-        * @return \Illuminate\Http\JsonResponse
+        * @return \App\Traits\JsonResponse; //respuesta json estandarizada para casos de exito
     */
 
     public static function successResponse($data, $code, $message = null) {
@@ -33,7 +33,7 @@ trait JsonResponse {
         * @param string  $message El mensaje es opcional en caso de querer personalizar la respuesta
         * @param mixed  $data Los datos que se quieren devolver
         * @param int $code El codigo de estado HTTP
-        * @return \Illuminate\Http\JsonResponse
+        * @return \App\Traits\JsonResponse; //respuesta json estandarizada para errores
     */
 
     public static function errorResponse( $data, $code, $message = null) {
