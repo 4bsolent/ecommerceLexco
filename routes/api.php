@@ -8,21 +8,25 @@ use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\AddressController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
-Route::get('/test', [ApiVersionController::class, 'index']);
-
-Route::post('/customer/user/create', [UsersController::class, 'customerCreateUser']);
-Route::post('/login', [UsersController::class, 'loginUser']);
+    // Rutas de Testing
 
 Route::post('/create/role', [RoleUserController::class, 'createRoleUser']);
 Route::post('/create/phone', [PhoneController::class, 'createPhone']);
 Route::post('/create/address', [AddressController::class, 'createAddress']);
 
-// Rutas de Administrador
+    // Rutas Públicas
 
-Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/v1.0/admin/users/add', [UsersController::class, 'adminCreateUser']);
+Route::get('/test', [ApiVersionController::class, 'index']);
+Route::post('/customer/user/create', [UsersController::class, 'customerCreateUser']);
+Route::post('/login', [UsersController::class, 'loginUser']);
+
+    // Rutas Protegidas y Versionadas con el Prefijo de la API
+
+Route::prefix('v1.0')->group(function () {
+
+    // Routas Administrador
+
+    Route::prefix('admin')->middleware(['auth:sanctum'])->group(function() {
+        Route::post('/users/add', [UsersController::class, 'adminCreateUser']);
+    });
 });
