@@ -18,14 +18,14 @@ class UsersController extends Controller
     use JsonResponse;
 
     private $userService;
-    private $roleUser;
+    private $roleUserService;
     private $addressService;
     private $phoneService;
     private $rolesRepository;
 
-    public function __construct(UsersService $userService, RoleUserService $roleUser, AddressService $addressService, PhoneService $phoneService, RolesRepository $rolesRepository) {
+    public function __construct(UsersService $userService, RoleUserService $roleUserService, AddressService $addressService, PhoneService $phoneService, RolesRepository $rolesRepository) {
         $this->userService = $userService;
-        $this->roleUser = $roleUser;
+        $this->roleUserService = $roleUserService;
         $this->addressService = $addressService;
         $this->phoneService = $phoneService;
         $this->rolesRepository = $rolesRepository;
@@ -51,7 +51,7 @@ class UsersController extends Controller
         $customerRole = $this->rolesRepository->getByRole('cliente');
         $customerRoleId [] = $customerRole->id;
 
-        $this->roleUser->assignRoleToUser($idUserCreate, $customerRoleId);
+        $this->roleUserService->assignRoleToUser($idUserCreate, $customerRoleId);
 
         return $this->successResponse(['user' => $newUser->user], 201);
     }
@@ -84,9 +84,19 @@ class UsersController extends Controller
         $addressData = $request->addressData;
         $phonesData = $request->phonesData;
 
-        return $phonesData;
-        
-        return $this->userService->newUser($userRoles);
+        $newUser = $this->userService->newUser($userData);
+        $newUserId = $newUser['id'];
+
+        $this->roleUserService->assignRoleToUser($newUserId, $userRoles);
+        $this->addressService->addAddress($newUserId, $addressData);
+        $this->phoneService->addPhone($newUserId, $phonesData);
+
+        return $this->successResponse([
+            'user' => $userData[0]['user'],
+            'roles' => $userRoles,
+            'addressData' => $addressData,
+            'PhonesData' => $phonesData
+        ],201);
     }
 
     public function loginUser (Request $request) {

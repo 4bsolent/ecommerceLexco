@@ -16,11 +16,11 @@ class RoleUserService {
         $this->roleUserRepository = $roleUserRepository;
     }
 
-    public function assignRoleToUser (int $idUser, array $idRoles) {
+    public function assignRoleToUser (int $userId, array $rolesIds) {
 
         try {
-            foreach ($idRoles as $idRole) {
-                $this->roleUserRepository->newRoleUser((int)$idUser, (int)$idRole);
+            foreach ($rolesIds as $roleId) {
+                $this->roleUserRepository->newRoleUser((int)$userId, (int)$roleId);
             }
         } catch (\Exception $e) {
             return $this->errorResponse([
@@ -30,8 +30,8 @@ class RoleUserService {
         }
 
         return $this->successResponse([
-            'rolesAsignation' => $idRoles,
-            'idUser' => $idUser
+            'rolesAsignation' => $rolesIds,
+            'userId' => $userId
         ], 201);
     }
 

@@ -6,12 +6,12 @@ use App\Models\Address;
 
 class AddressRepository {
     
-    public function newAddress($data) {
+    public function newAddress(int $userId, array $addressData) {
         return Address::create([
-            'id_user' => $data['id_user'],
-            'city' => $data['city'],
-            'neighborhood' => $data['neighborhood'],
-            'nomenclature' => $data['nomenclature']
+            'id_user' => $userId,
+            'city' => $addressData['city'],
+            'neighborhood' => $addressData['neighborhood'],
+            'nomenclature' => $addressData['nomenclature']
         ]);
     }
 }

@@ -15,10 +15,8 @@ class PhoneService {
         $this->phoneRepository = $phoneRepository;
     }
 
-    public function addPhone ($data) {
+    public function addPhone ($userId, $phonesData) {
 
-        $idUser = $data['id_user'];
-        $phonesData = $data['phones'];
         $numbersAlreadyRegistered = [];
 
         foreach ($phonesData as $phoneData) {
@@ -26,18 +24,18 @@ class PhoneService {
             $prefix = $phoneData['prefix'];
             $phoneNumber = $phoneData['number'];
 
-            $validatorNumber = $this->phoneRepository->isPhoneAlreadyRegistred($idUser, $prefix, $phoneNumber);
+            $validatorNumber = $this->phoneRepository->isPhoneAlreadyRegistred($userId, $prefix, $phoneNumber);
 
             if ($validatorNumber) {
                 $numbersAlreadyRegistered[] = $prefix . ' ' . $phoneNumber;
             } else {
-                $this->phoneRepository->newPhone($idUser, $prefix, $phoneNumber);
+                $this->phoneRepository->newPhone($userId, $prefix, $phoneNumber);
             }
         }
 
         if (!empty($numbersAlreadyRegistered)) {
             return $this->errorResponse([
-                'message' => 'Los siguientes números ya se encuentran registrados al usuario con ID: ' . $idUser,
+                'message' => 'Los siguientes números ya se encuentran registrados al usuario con ID: ' . $userId,
                 'phoneNumbers' => $numbersAlreadyRegistered
             ],422);
         } else {
