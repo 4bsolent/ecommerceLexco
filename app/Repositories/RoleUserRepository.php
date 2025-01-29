@@ -19,6 +19,6 @@ class RoleUserRepository {
     }
 
     public function getAllRoleUser() {
-        return RoleUser::all();
+        return RoleUser::with(['user', 'role'])->get();
     }
 }
