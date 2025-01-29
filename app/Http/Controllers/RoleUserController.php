@@ -50,4 +50,8 @@ class RoleUserController extends Controller
             'alreadyAssignedRoles' => $alreadyAssignedRoles
         ], 200);
     }
+
+    public function showAllRoleUser () {
+        return $this->roleUserService->getAllRoleUser();
+    }
 }
