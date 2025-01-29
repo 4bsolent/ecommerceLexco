@@ -23,5 +23,14 @@ class UserRepository {
     public function userById(int $userId) {
         return User::where('id', $userId)->select('id', 'user', 'status', 'name', 'lastname', 'email', 'image_rute')->first();
     }
+
+    public function changeStatus(int $userId, string $status) {
+        return User::where('id', $userId)
+                    ->update(['status' => $status]);
+    }
+
+    public function statusUser (int $userId) {
+        return User::where('id', $userId)->select('status')->first();
+    }
 }
 
