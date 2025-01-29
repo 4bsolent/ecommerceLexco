@@ -31,5 +31,6 @@ Route::prefix('v1.0')->group(function () {
         Route::get('/users', [UserController::class, 'showAllUsers']);
         Route::post('/users/id', [UserController::class, 'showUserById']);
         Route::post('/users/delete', [UserController::class, 'changeUserStatus']);
+        Route::post('/role_user/add', [RoleUserController::class, 'createRoleUser']);
     });
 });
