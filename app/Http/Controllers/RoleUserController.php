@@ -19,19 +19,35 @@ class RoleUserController extends Controller
 
     public function createRoleUser(Request $request) {
         $validator = Validator::make($request->all(), [
-            'id_role' => 'required|array|exists:roles,id',
-            'id_user' => 'required|numeric|exists:users,id',
+            'userId' => 'required|numeric|exists:roles,id',
+            'rolesBeAssigned' => 'required|array|exists:users,id',
         ]);
 
         if ($validator->fails()) {
             return $this->errorResponse($validator->errors(), 422);
         }
 
-        $idUser = (int) $request->id_user;
-        $idRoles = (array) $request->id_role;
+        $userId = $request->userId;
+        $rolesToBeAssigned = $request->rolesBeAssigned;
 
-        return $this->roleUserService->assignRoleToUser($idUser, $idRoles);
+        $assignedRoles = [];
+        $alreadyAssignedRoles = [];
         
+        foreach ($rolesToBeAssigned as $roleId) {
+            $validationRole = $this->roleUserService->validationOfAssignedRole($userId, $roleId);
 
+            if (!$validationRole) {
+                $assignedRoles [] = $roleId;
+
+                $this->roleUserService->assignRoleToUser($userId, $roleId);
+            } else {
+                $alreadyAssignedRoles [] = $roleId;
+            }
+        }
+
+        return $this->successResponse([
+            'assignedRoles' => $assignedRoles,
+            'alreadyAssignedRoles' => $alreadyAssignedRoles
+        ], 200);
     }
 }
