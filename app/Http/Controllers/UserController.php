@@ -136,4 +136,31 @@ class UserController extends Controller
 
         return $this->userService->userById($userId);
     }
+
+    public function changeUserStatus(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'userId' => 'required|numeric|max:4|exists:users,id',
+            'newUserStatus' => 'required|string|in:active,inactive|max:10'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        $userId = $request->userId;
+        $newUserStatus = $request->newUserStatus;
+        $userStatus = $this->userService->validationUserStatus($userId)->status;
+
+        if ($newUserStatus == $userStatus) {
+            return $this->errorResponse([
+                'info' => 'El usuario con ID: ' . $userId . ' ya tiene asignado el status: ' . $userStatus,
+            ], 422);
+        }
+
+        $this->userService->changeStatus($userId, $newUserStatus);
+        
+        return $this->successResponse([
+            'inf' => 'Status ' . $newUserStatus . ' asignado al usuario con ID: ' . $userId
+        ], 200);
+    }
 }
