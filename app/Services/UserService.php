@@ -31,7 +31,15 @@ class UserService {
     public function userById (int $userId) {
         return $this->userRepository->userById($userId);
     }
- 
+
+    public function changeStatus(int $userId, string $newStatus) {
+        return $this->userRepository->changeStatus($userId, $newStatus);
+    }
+
+    public function validationUserStatus(int $userId) {
+        return $this->userRepository->statusUser($userId);
+    }
+
     /**
         * Validación de usuario
         *
