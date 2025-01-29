@@ -16,23 +16,12 @@ class RoleUserService {
         $this->roleUserRepository = $roleUserRepository;
     }
 
-    public function assignRoleToUser (int $userId, array $rolesIds) {
+    public function assignRoleToUser (int $userId, int $roleId) {
+        return $this->roleUserRepository->newRoleUser($userId, $roleId);
+    }
 
-        try {
-            foreach ($rolesIds as $roleId) {
-                $this->roleUserRepository->newRoleUser((int)$userId, (int)$roleId);
-            }
-        } catch (\Exception $e) {
-            return $this->errorResponse([
-                'identifier' => 'El usuario ya tiene asignado el role',
-                'errorLog' => $e->getMessage()
-            ], 422);
-        }
-
-        return $this->successResponse([
-            'rolesAsignation' => $rolesIds,
-            'userId' => $userId
-        ], 201);
+    public function validationOfAssignedRole(int $userId, int $roleId) {
+        return $this->roleUserRepository->validationRoleUser($userId, $roleId);
     }
 
     public function getAllRoleUser() {
