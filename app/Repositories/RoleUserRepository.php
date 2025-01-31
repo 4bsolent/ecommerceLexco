@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\RoleUser;
+use App\Models\User;
 
 class RoleUserRepository {
     public function newRoleUser(int $userId, int $roleId) {
@@ -18,17 +19,30 @@ class RoleUserRepository {
                         ->exists();
     }
 
-    public function getAllRoleUser() {
-        $roleUserResponse = RoleUser::with(['user', 'role'])->get();
-        $roleUserFormat = [];
+    public function allRoleUser() {
+        $allUserWhitRole = User::with('roles')->get();
+        $allUserWhitRoleFormat = [];
 
-        foreach ($roleUserResponse as $roleUser) {
-            $roleUserInfo = [
-                'idRoleUser' => $roleUser->id,
-                'user' => $roleUser->user->user
+        foreach ($allUserWhitRole as $userWhitRole) {
+
+            $roles = $userWhitRole->roles->map(function($role) {
+                return [
+                    'idRoleUse' => $role->pivot->id,
+                    'role' => $role->role,
+                    'status' => $role->pivot->status,
+                ];
+            });
+
+            $user = [
+                'id' => $userWhitRole->id,
+                'user' => $userWhitRole->user,
+                'fullName' => $userWhitRole->name . ' ' . $userWhitRole->lastname,
+                'roles' => $roles
             ];
-            $roleUserFormat [] = $roleUserInfo;
+
+            $allUserWhitRoleFormat[] = $user;
         }
-        return $roleUserFormat;
+
+        return $allUserWhitRoleFormat;
     }
 }
