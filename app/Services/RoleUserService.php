@@ -25,6 +25,6 @@ class RoleUserService {
     }
 
     public function getAllRoleUser() {
-        return $this->roleUserRepository->getAllRoleUser();
+        return $this->roleUserRepository->allRoleUser();
     }
 }
