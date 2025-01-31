@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\RolesRepository;
+use App\Repositories\RoleRepository;
 use App\Services\UserService;
 use App\Services\RoleUserService;
 use App\Services\AddressService;
@@ -21,14 +21,14 @@ class UserController extends Controller
     private $roleUserService;
     private $addressService;
     private $phoneService;
-    private $rolesRepository;
+    private $roleRepository;
 
-    public function __construct(UserService $userService, RoleUserService $roleUserService, AddressService $addressService, PhoneService $phoneService, RolesRepository $rolesRepository) {
+    public function __construct(UserService $userService, RoleUserService $roleUserService, AddressService $addressService, PhoneService $phoneService, RoleRepository $roleRepository) {
         $this->userService = $userService;
         $this->roleUserService = $roleUserService;
         $this->addressService = $addressService;
         $this->phoneService = $phoneService;
-        $this->rolesRepository = $rolesRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     public function customerCreateUser(Request $request) {
@@ -48,8 +48,8 @@ class UserController extends Controller
         $userData = $request->userData;
         $newUser = $this->userService->newUser($userData);
         $idUserCreate = $newUser->id;
-        $customerRole = $this->rolesRepository->getByRole('cliente');
-        $customerRoleId [] = $customerRole->id;
+        $customerRole = $this->roleRepository->getByRole('cliente');
+        $customerRoleId = $customerRole->id;
 
         $this->roleUserService->assignRoleToUser($idUserCreate, $customerRoleId);
 

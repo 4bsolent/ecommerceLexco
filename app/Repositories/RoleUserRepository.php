@@ -19,6 +19,16 @@ class RoleUserRepository {
     }
 
     public function getAllRoleUser() {
-        return RoleUser::with(['user', 'role'])->get();
+        $roleUserResponse = RoleUser::with(['user', 'role'])->get();
+        $roleUserFormat = [];
+
+        foreach ($roleUserResponse as $roleUser) {
+            $roleUserInfo = [
+                'idRoleUser' => $roleUser->id,
+                'user' => $roleUser->user->user
+            ];
+            $roleUserFormat [] = $roleUserInfo;
+        }
+        return $roleUserFormat;
     }
 }
