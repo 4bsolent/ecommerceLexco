@@ -6,6 +6,7 @@ use App\Models\RoleUser;
 use App\Models\User;
 
 class RoleUserRepository {
+    
     public function newRoleUser(int $userId, int $roleId) {
         return RoleUser::create([
             'id_role' => $roleId,
@@ -17,6 +18,15 @@ class RoleUserRepository {
         return RoleUser::where('id_role', $roleId)
                         ->where('id_user', $userId)
                         ->exists();
+    }
+
+    public function updateRoleUserStatus(int $roleUserId, string $newRoleUserStatus) {
+        return RoleUser::where('id', $roleUserId)
+                        ->update(['status' => $newRoleUserStatus]);
+    }
+
+    public function deleteRoleUser(int $roleUserId) {
+        return RoleUser::where('id', $roleUserId)->delete();
     }
 
     public function allRoleUser() {
@@ -34,9 +44,11 @@ class RoleUserRepository {
             });
 
             $user = [
-                'id' => $userWhitRole->id,
-                'user' => $userWhitRole->user,
-                'fullName' => $userWhitRole->name . ' ' . $userWhitRole->lastname,
+                'user' => [
+                    'id' => $userWhitRole->id,
+                    'user' => $userWhitRole->user,
+                    'fullName' => $userWhitRole->name . ' ' . $userWhitRole->lastname
+                    ],
                 'roles' => $roles
             ];
 
@@ -44,5 +56,13 @@ class RoleUserRepository {
         }
 
         return $allUserWhitRoleFormat;
+    }
+
+    public function allRoleUserByUserId(int $userId) {
+        return User::with('roles')->select('id', 'user', 'name', 'lastname', 'email')->find($userId);
+    }
+
+    public function roleUserById(int $roleUserId) {
+        return RoleUser::with('role', 'user')->find($roleUserId);
     }
 }

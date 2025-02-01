@@ -52,6 +52,55 @@ class RoleUserController extends Controller
     }
 
     public function showAllRoleUser () {
-        return $this->roleUserService->getAllRoleUser();
+        $allRoleUser = $this->roleUserService->getAllRoleUser();
+
+        return $this->successResponse($allRoleUser, 200);
+    }
+
+    public function showAllRoleUserByUserId(Request $request) {
+        $validator = validator::make($request->all(), [
+            'userId' => 'required|numeric|exists:users,id'
+        ]);
+
+        if($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        $userId = $request->userId;
+        $roleUserByUser = $this->roleUserService->getAllRoleUserByUserId($userId);
+
+        return $this->successResponse($roleUserByUser, 200);
+
+    }
+
+    public function editRoleUserStatus(Request $request) {
+        
+        $validator = Validator::make($request->all(), [
+            'roleUserId' => 'required|numeric|exists:role_user,id',
+            'newStatus' => 'required|string|in:active,inactive'
+        ]);
+
+        if ($validator->fails()) {
+            return $this->errorResponse($validator->errors(), 422);
+        }
+
+        $roleUserId = $request->roleUserId;
+        $newStatus = $request->newStatus;
+
+        return $this->roleUserService->updateRoleUserStatus($roleUserId, $newStatus);
+    }
+
+    public function removeRoleUser(Request $request) {
+        $validaotor = Validator::make($request->all(), [
+            'roleUserId' => 'required|numeric|exists:role_user,id',
+        ]);
+
+        if ($validaotor->fails()) {
+            return $this->errorResponse($validaotor->errors(), 422);
+        }
+
+        $roleUserId = $request->roleUserId;
+
+        return $this->roleUserService->deleteRoleUser($roleUserId);
     }
 }
