@@ -2,21 +2,19 @@
 
 namespace Database\Seeders;
 
+use App\Repositories\RoleRepository;
+use Faker\Provider\UserAgent;
 use Illuminate\Database\Seeder;
+
 
 class DatabaseSeeder extends Seeder
 {
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
         $this->call([
             RolesSeeder::class,
-        ]);
-
-        $this->call([
             CategoriesSeeder::class,
+            UsersSeeder::class
         ]);
     }
 }
