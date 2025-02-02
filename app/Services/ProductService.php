@@ -21,4 +21,25 @@ class ProductService
 
         return $this->productRepository->newProduct($categoryId, $name, $description, $price, $stock);
     }
+
+    public function getAllProducts () {
+        $allProductsRespose = $this->productRepository->allProducts();
+
+        $allproductsFormat = [];
+
+        foreach ($allProductsRespose as $product) {
+            $productFormat = [
+                'id' => $product['id'],
+                'name' => $product['name'],
+                'description' => $product['description'],
+                'price' => $product['price'],
+                'stock' => $product['stock'],
+                'category' => $product['category']['category']
+            ];
+
+            $allproductsFormat[] = $productFormat;
+        }
+
+        return $allproductsFormat;
+    }
 }
