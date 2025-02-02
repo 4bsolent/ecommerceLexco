@@ -1,12 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiVersionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleUserController;
 use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\ProductController;
 
     // Rutas de Testing
 
@@ -27,14 +27,24 @@ Route::prefix('v1.0')->group(function () {
     // Routas Administrador
 
     Route::prefix('admin')->middleware(['auth:sanctum'])->group(function() {
+        
+        //Gestión de Usuarios
         Route::post('/users/add', [UserController::class, 'adminCreateUser']);
         Route::get('/users', [UserController::class, 'showAllUsers']);
         Route::post('/users/id', [UserController::class, 'showUserById']);
         Route::post('/users/delete', [UserController::class, 'changeUserStatus']);
+
+        //Gestión de RoleUser
         Route::post('/role_user/add', [RoleUserController::class, 'createRoleUser']);
         Route::get('/role_user', [RoleUserController::class, 'showAllRoleUser']);
         Route::post('/role_user/userid', [RoleUserController::class, 'showAllRoleUserByUserId']);
         Route::post('/role_user/update', [RoleUserController::class, 'editRoleUserStatus']);
         Route::post('/role_user/delete', [RoleUserController::class, 'removeRoleUser']);
     });
+
+    // Rutas de Productos
+    Route::prefix('products')->middleware(['auth:sanctum'])->group(function() {
+        Route::post('/add', [ProductController::class, 'create']);
+    });
+
 });
