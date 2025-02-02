@@ -19,6 +19,13 @@ return new class extends Migration
             $table->integer('price');
             $table->integer('stock');
             $table->timestamps();
+
+            // Llave Foránea
+            
+            $table->foreign('id_category')
+                  ->references('id')
+                  ->on('categories')
+                  ->onDelete('cascade');
         });
     }
 

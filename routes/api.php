@@ -43,8 +43,10 @@ Route::prefix('v1.0')->group(function () {
     });
 
     // Rutas de Productos
+
     Route::prefix('products')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/add', [ProductController::class, 'create']);
+        Route::get('/', [ProductController::class, 'showAllProducts']);
     });
 
 });
