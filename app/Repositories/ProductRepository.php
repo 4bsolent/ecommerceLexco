@@ -15,4 +15,10 @@ class ProductRepository
             'stock' => $stock
         ]);
     }
+
+    public function allProducts() {
+        return Product::with('category')->get()->select(
+            'id', 'name', 'description', 'price', 'stock', 'category'
+        );
+    }
 }
