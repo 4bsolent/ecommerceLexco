@@ -40,4 +40,10 @@ class ProductController extends Controller
             'stock' => $createdProduct->stock
         ], 201);
     }
-}
+
+    public function showAllProducts () {
+        $response = $this->productService->getAllProducts();
+
+        return $this->successResponse($response, 200);
+    }
+ }
