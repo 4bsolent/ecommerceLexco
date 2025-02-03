@@ -21,4 +21,12 @@ class ProductRepository
             'id', 'name', 'description', 'price', 'stock', 'category'
         );
     }
+
+    public function productById(int $productId) {
+        return Product::find($productId);
+    }
+
+    public function deleteProduct(int $productId) {
+        return Product::find($productId)->delete();
+    }
 }

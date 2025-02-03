@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Repositories\ProductRepository;
+use App\Traits\JsonResponse;
 
 class ProductService
 {
+    use JsonResponse;
+
     private $productRepository;
 
     public function __construct(ProductRepository $productRepository) {
@@ -41,5 +44,15 @@ class ProductService
         }
 
         return $allproductsFormat;
+    }
+
+    public function removeProduct(int $productId) {
+        $productToBeRemoved = $this->productRepository->productById($productId);
+
+        $this->productRepository->deleteProduct($productId);
+
+        return $this->successResponse([
+            'info' => 'El producto con ID: ' . $productToBeRemoved->id . ' fue eliminado.'
+        ], 200);
     }
 }

@@ -47,6 +47,8 @@ Route::prefix('v1.0')->group(function () {
     Route::prefix('products')->middleware(['auth:sanctum'])->group(function() {
         Route::post('/add', [ProductController::class, 'create']);
         Route::get('/', [ProductController::class, 'showAllProducts']);
+        Route::post('/update', [ProductController::class, 'updateProduct']);
+        Route::post('/delete', [ProductController::class, 'deleteProduct']);
     });
 
 });
